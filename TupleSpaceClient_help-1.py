@@ -61,7 +61,7 @@ def main():
             elif cmd == 'PUT':
                 key = parts[1]
                 value = parts[2]
-                # check key+" "+value length≤970
+                # check key+" "+value's length≤970
                 if len(key) + 1 + len(value) > 970:
                     print(f"Error: PUT key+value {key} {value} too long (max 970 chars)")
                     continue
@@ -72,7 +72,14 @@ def main():
             # - Send:    sock.sendall(message.encode())
             # - Receive: first read 3 bytes to get the response size (like the server does).
             #            Then read the remaining (size - 3) bytes to get the response body.
-
+            #send:
+            sock.sendall(message.encode())
+            #get response size
+            size_bytes = sock.recv(3)
+            response_size = int(size_bytes.decode())
+            #to get response body
+            body_bytes = sock.recv(response_size - 3)
+            response_buffer = size_bytes + body_bytes
 
             response = response_buffer.decode().strip()
             print(f"{line}: {response}")
