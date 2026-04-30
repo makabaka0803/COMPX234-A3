@@ -42,7 +42,31 @@ def main():
             # X is "R" for READ and "G" for GET.
             # Hint: for READ/GET, size = 6 + len(key). For PUT, size = 7 + len(key) + len(value).
             # Reject lines with invalid format or key+" "+value > 970 chars.
-
+            if cmd == 'READ':
+                key = parts[1]
+                # cheeck READ's key length（6 + len(key)）
+                if len(key) > 970:
+                    print(f"Error: READ key {key} too long (max 970 chars)")
+                    continue
+                length = 6 + len(key)
+                message = f'{length:03d} R {key}'
+            elif cmd == 'GET':
+                key = parts[1]
+                # check GETs key length
+                if len(key) > 970:
+                    print(f"Error: GET key {key} too long (max 970 chars)")
+                    continue
+                length = 6 + len(key)
+                message = f'{length:03d} G {key}'
+            elif cmd == 'PUT':
+                key = parts[1]
+                value = parts[2]
+                # check key+" "+value length≤970
+                if len(key) + 1 + len(value) > 970:
+                    print(f"Error: PUT key+value {key} {value} too long (max 970 chars)")
+                    continue
+                length = 7 + len(key) + len(value)
+                message = f'{length:03d} P {key} {value}'
 
             # TASK 3: Send the message to the server, then receive the response.
             # - Send:    sock.sendall(message.encode())
