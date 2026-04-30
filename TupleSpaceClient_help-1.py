@@ -91,6 +91,8 @@ def main():
         # TASK 4: Close the socket when done (already called for you — explain why
         # finally: is the right place to do this even if an error occurs above).
         sock.close()
+        #finally：The code in the finally block will always execute, whether an error occurs in the try block or not.
+        #Ensure that the socket is definitely closed when the client exits to prevent resource leaks.
 
 if __name__ == "__main__":
     main()
